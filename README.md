@@ -6,11 +6,8 @@ Pytorch >= 1.7.0
 Python >= 3.7.0
 
 ```
-<<<<<<< HEAD
 git clone -b API --single-branch https://github.com/rjk0204/SNU_LP.git
-=======
-git clone -b API --single-branch https://github.com/rjk0204/SNU_LP.git
->>>>>>> 6d2ebf55fdc2408a440b8405120bc9b7c40651e9
+
 cd SNU_LP
 conda create -n ENV_NAME python=3.7
 conda activate ENV_NAME
@@ -30,24 +27,16 @@ pip install -r requirements.txt
 
 <<<<<<< HEAD
 아래 링크에서 미리 학습된 recognition, detection ckpt 파일을 다운 받아 weights 폴더에 배치
-=======
-아래 링크에서 미리 학습된 recognition, detection ckpt 파일을 다운 받아 weights 폴더에 배치
->>>>>>> 6d2ebf55fdc2408a440b8405120bc9b7c40651e9
 
 구글 드라이브 주소 : https://drive.google.com/drive/folders/112Lt3OqficYWn61HwqbJQmm7DIkGPkfA?usp=sharing
 
 ## === Inference ===
 ```
-<<<<<<< HEAD
 python detect_recog_img.py
 python detect_track_recog_video.py
 ```
 #### => 실행시 {video_result/입력파일이름}/{img_result/입력파일이름}  폴더가 생성되며, 내부에 inference 결과 이미지/동영상 파일을 저장함
-=======
-python detect.py
-```
-#### => 실행시 {video_result/입력파일이름}/{img_result/입력파일이름}  폴더가 생성되며, 내부에 inference 결과 이미지/동영상 파일을 저장함
->>>>>>> 6d2ebf55fdc2408a440b8405120bc9b7c40651e9
+
 
 
 ### [Argument (detect.cfg) 설명]
