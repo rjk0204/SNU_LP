@@ -1,5 +1,4 @@
 # SNU_LP
-## LP_Detection train, test용 코드
 
 # Environments
 Pytorch >= 1.7.0
@@ -7,7 +6,7 @@ Pytorch >= 1.7.0
 Python >= 3.7.0
 
 ```
-git clone -b LP_Detection --single-branch https://github.com/SeonjiPark/SNU_LP.git
+git clone -b API --single-branch https://github.com/rjk0204/SNU_LP.git
 cd SNU_LP
 conda create -n ENV_NAME python=3.7
 conda activate ENV_NAME
@@ -15,99 +14,87 @@ pip install -r requirements.txt
 ```
 
 # Directory 설명
+    |── dataset : sample dataset
+    |── detection : detection 관련 코드
+    |── recognition : recognition 관련 코드
+    |── weights : pretrained detection & recognition weight들 저장
+    |── config.py : 입력 arugment 를 관리하는 파일
+    |── detect.cfg : 입력 argument를 설정하는 파일
+    └──> gulim.ttc : 한글 출력을 위한 폰트
 
-```
-|── datasets : dataset을 저장하는 폴더
-|──LP_Detection
-    |── data : dataset별 실행에 필요한 argument를 지정해주는 yaml
-    |── models : yolov5s 모델을 구성하는 layer와 argument
-    |── utils : loss, plot 등 실행과 계산에 필요한 util 모음
-    |── weights : yolov5s 모델로 학습시킨 AD dataset의 pretrained weight
-        |──detect.py: inference용 코드 (label 존재하지 않을 때)
-        |──train.py : train용 코드
-        |──val.py : test용 코드 (label 존재할 때)
-        |──track.py : tracking용 코드 (학습된 weight로 실행)
-        |──requirements.txt : 환경 설정 파일
-```
+## === 학습된 ckpt ===
 
+아래 링크에서 미리 학습된 recognition, detection ckpt 파일을 다운 받아 weights 폴더에 배치
 
-
-# dataset 구성
-
-#### dataset 폴더 구성 주의 사항: dataset 폴더는 python 코드보다 상위에 존재함
-label 구성 : [{lcass_num} center_x, center_y, width, height], 모든 좌료값은 x, y 각각 0~1 normalized
-
-Ex. 0 0.51 0.62 0.056 0.024
-
-![label 예시](https://user-images.githubusercontent.com/57519896/190067910-68865098-1fb7-43eb-9d53-f307adce4527.png)
-
-
-```
-|── datasets : dataset을 저장하는 폴더
-    |── {dataset 이름}
-        |── train
-            |── images
-            |── labels
-        |── valid
-            |── images
-            |── labels
-  
-|──LP_Detection
-   .
-   .
-   .
-
-```
-
-# 코드 실행 설명
-## === Train ===
-```
-python train.py --data AD.yaml --weights '' --cfg yolov5s.yaml --device {gpu index}
-```
---data : ./data/AD.yaml을 참고하여 학습시키고자 하는 dataset의 경로와 class의 갯수를 입력하여 사용
-
---weights : pretrained 파일이 없는 경우 ''로 argument를 주면 scratch부터 학습
-
-
-## === Test ===
-```
-python val.py --weights ./weights/detection.pt --data kamo_lp.yaml --device {gpu index}
-```
---weights: 학습된 weight의 경로
-
---data: 학습시에 사용한 dataset의 yaml
-
-
-위 코드 실행시 runs 폴더가 생성되며 validation 결과를 저장함
-
+구글 드라이브 주소 : https://drive.google.com/drive/folders/112Lt3OqficYWn61HwqbJQmm7DIkGPkfA?usp=sharing
 
 ## === Inference ===
 ```
-python detect.py --weights ./weights/detection.pt --source {inference 대상인 이미지 or 동영상 or 폴더의 경로} --data kamo_lp.yaml --device {gpu index}
+python detect_recog_img.py
+python detect_track_recog_video.py
 ```
---weights: 학습된 weight의 경로
-
---data: 학습시에 사용한 dataset의 yaml
-
---source: inference를 진행할 이미지 / 동영상 / 폴더의 경로 Ex. --source ./test_image.png
-
-위 코드 실행시 runs 폴더가 생성되며 inference 결과를 저장함
+#### => 실행시 {video_result/입력파일이름}/{img_result/입력파일이름}  폴더가 생성되며, 내부에 inference 결과 이미지/동영상 파일을 저장함
 
 
-## === tracking ===
-```
-python track.py --weights ./weights/detection.pt --source {inference 대상인 이미지 or 동영상 or 폴더의 경로} --device {gpu index}
-```
---weights: 학습된 weight의 경로
-
---source: inference를 진행할 이미지 / 동영상 / 폴더의 경로 Ex. --source ./test_video.mp4
-
-위 코드 실행시 runs 폴더가 생성되며 tracking 결과를 저장함
+### [Argument (detect.cfg) 설명]
 
 
+source = 입력 동영상 or 이미지 or 폴더의 경로
 
-## citation 
+data = detection용 환경 setting (학습된 weight와 관련있으므로 변경하지 않는 것을 권장)
 
-YOLOv5 🚀 by Ultralytics, GPL-3.0 license
+gpu_num = gpu를 사용할 수 있는 환경에서 gpu number 설정
 
-https://github.com/ultralytics/yolov5
+
+detection_weight_file, recognition_weight_file = 각각 detection, recognition weight 파일의 경로 (변경하지 않는 것을 권장)
+
+output_dir = inference 결과를 저장할 폴더 이름 
+
+
+ex. output_dir = inference_result로 설정할 시 아래와 같이 결과 폴더가 생성됨 (주의: 같은 파일에 대해 실행시 덮어쓰기 됨)
+
+    inference_result
+        |── {입력파일 or 폴더 이름}
+            |── detection : detection 결과 이미지
+            |── recognition : recognition 결과 이미지
+            |── label : detetction 결과 bbox label (0~1 사이로 normalized 되어 있음)     
+            
+
+
+
+
+### [detection 결과 저장 관련 arg]
+
+
+result_savefile = 전체 결과 이미지를 저장할 지 여부
+
+save_detect_result = detection 결과 이미지를 저장할 지 여부
+
+hide_labels = detection 결과 이미지에서 label("LP" = License Plate)를 출력하지 않을지 여부
+
+hide_conf = detection 결과 이미지에서 confidence 값을 출력하지 않을지 여부
+
+save_conf = detection 결과 txt에서 confidence값을 출력하지 않을지 여부
+
+
+
+
+
+### [recognition 결과 저장 관련 arg]
+
+
+save_recog_result = recognition 결과 이미지를 저장할 지 여부
+
+#### **주의 : labels/{파일이름}.txt 파일에는 0~1로 normalize된 center_x, center_y, w, h가 저장됨. (return 값과 다름)
+
+ 
+ 
+ 
+
+## === Code 내부에서 return 하는 것 ===
+
+detect_snu: 입력으로 들어온 이미지 원본과 detection predictions (bbox 좌표, confidence 값)
+
+recognize_snu: recognition 결과 text
+
+
