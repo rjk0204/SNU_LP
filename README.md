@@ -42,8 +42,6 @@ python detect_track_recog_video.py
 ### [Argument (detect.cfg) 설명]
 
 
-source = 입력 동영상 or 이미지 or 폴더의 경로
-
 data = detection용 환경 setting (학습된 weight와 관련있으므로 변경하지 않는 것을 권장)
 
 gpu_num = gpu를 사용할 수 있는 환경에서 gpu number 설정
