@@ -28,7 +28,7 @@ pip install -r requirements.txt
 <<<<<<< HEAD
 아래 링크에서 미리 학습된 recognition, detection ckpt 파일을 다운 받아 weights 폴더에 배치
 
-구글 드라이브 주소 : https://drive.google.com/drive/folders/112Lt3OqficYWn61HwqbJQmm7DIkGPkfA?usp=sharing
+구글 드라이브 주소 : https://drive.google.com/file/d/1TGcocqHVI07pCZlySlvVVcOlOCtEt64A/view?usp=sharing, https://drive.google.com/file/d/1stSZWjl8JIiGHn0Pd_XOwEcXNcrCSMv8/view?usp=sharing
 
 ## === Inference ===
 ```
