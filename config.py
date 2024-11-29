@@ -40,15 +40,22 @@ def parse_training_args(parser):
     parser.add_argument('--save_conf', type=str2bool, default=False, help='save confidences in --save-txt labels')
     parser.add_argument('--save_detect_img', type=str2bool, default=True, help='save detection images/videos')
 
+<<<<<<< HEAD
     # Directory Parameters
     parser.add_argument('--data_dir', type=str, default="./sample_video/")
 
+=======
+>>>>>>> 6d2ebf55fdc2408a440b8405120bc9b7c40651e9
     # Weights to load from
     parser.add_argument('--weight_dir', type=str, default='weights/')
 
     # Detection Paramters
     parser.add_argument('--detect_weights', nargs='+', type=str, default=ROOT / './weights/detection.pt', help='model path(s)')
+<<<<<<< HEAD
     parser.add_argument('--data', type=str, default=ROOT / './detection/data/kamo_det.yaml', help='(optional) dataset.yaml path')
+=======
+    parser.add_argument('--data', type=str, default=ROOT / './detection/data/kamo_det.yaml', help='(optional) dataset.yaml path')
+>>>>>>> 6d2ebf55fdc2408a440b8405120bc9b7c40651e9
     parser.add_argument('--detect_imgsz', '--img', '--img-size', nargs='+', type=int, default=[640], help='inference size h,w')
 
     parser.add_argument('--conf_thres', type=float, default=0.9, help='confidence threshold')
@@ -61,7 +68,11 @@ def parse_training_args(parser):
     parser.add_argument('--batch_max_length', type=int, default=9, help='Max Length of Predicted Word (7 for chinense / 9 for korean)', choices=[7, 9])
     parser.add_argument('--pad_image', type=str2bool, default=False, help='Pad when resize')
 
-    parser.add_argument('--recognition_weight', type=str, default="ckpt_best.pth")
+<<<<<<< HEAD
+    parser.add_argument('--recognition_weight', type=str, default="recognition.pth")
+=======
+    parser.add_argument('--recognition_weight', type=str, default="recognition.pth")
+>>>>>>> 6d2ebf55fdc2408a440b8405120bc9b7c40651e9
 
     parser.add_argument('--Transformation', type=str, default='TPS', choices=['None', 'TPS'])
     parser.add_argument('--FeatureExtraction', type=str, default='ResNet', choices=['VGG, RCNN, ResNet'])
