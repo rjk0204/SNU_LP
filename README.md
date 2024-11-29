@@ -15,7 +15,8 @@ pip install -r requirements.txt
 ```
 
 # Directory 설명
-    |── dataset : sample dataset
+    |── sample_images : sample image dataset
+    |── sample_video : sample video dataset
     |── detection : detection 관련 코드
     |── recognition : recognition 관련 코드
     |── weights : pretrained detection & recognition weight들 저장
@@ -25,10 +26,9 @@ pip install -r requirements.txt
 
 ## === 학습된 ckpt ===
 
-<<<<<<< HEAD
 아래 링크에서 미리 학습된 recognition, detection ckpt 파일을 다운 받아 weights 폴더에 배치
 
-구글 드라이브 주소 : https://drive.google.com/file/d/1TGcocqHVI07pCZlySlvVVcOlOCtEt64A/view?usp=sharing, https://drive.google.com/file/d/1stSZWjl8JIiGHn0Pd_XOwEcXNcrCSMv8/view?usp=sharing
+구글 드라이브 주소 : https://drive.google.com/drive/folders/1Tx06QJsvAUVyO73fNpC___9QPkw1ipn2?usp=sharing
 
 ## === Inference ===
 ```
