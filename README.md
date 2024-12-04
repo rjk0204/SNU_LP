@@ -48,9 +48,11 @@ gpu_num = gpu를 사용할 수 있는 환경에서 gpu number 설정
 
 
 detection_weight_file, recognition_weight_file = 각각 detection, recognition weight 파일의 경로 (변경하지 않는 것을 권장)
+
 source_img = image sample 경로, inference 하고자 하는 image 경로로 변경
+
 source_vid = video sample 경로, inference 하고자 하는 video 경로로 변경
 
 ## === Code 내부에서 return 하는 것 ===
 
-output_path/output_video_path: 저장하는 결과 이미지/동영상의 경로
+output_path/output_video_path: 저장하는 결과 (이미지/동영상)의 경로
