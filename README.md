@@ -53,6 +53,37 @@ source_img = image sample 경로, inference 하고자 하는 image 경로로 변
 
 source_vid = video sample 경로, inference 하고자 하는 video 경로로 변경
 
+output_dir = inference 결과를 저장할 폴더 이름
+
+ex. output_dir = inference_result로 설정할 시 아래와 같이 결과 폴더가 생성됨 (주의: 같은 파일에 대해 실행시 덮어쓰기 됨)
+
+```
+inference_result
+    |── {입력파일 or 폴더 이름}
+        |── detection : detection 결과 이미지
+        |── recognition : recognition 결과 이미지
+        |── label : detetction 결과 bbox label (0~1 사이로 normalized 되어 있음)  
+```   
+
+### [detection 결과 저장 관련 arg]
+
+
+result_savefile = 전체 결과 이미지를 저장할 지 여부
+
+save_detect_result = detection 결과 이미지를 저장할 지 여부
+
+hide_labels = detection 결과 이미지에서 label("LP" = License Plate)를 출력하지 않을지 여부
+
+hide_conf = detection 결과 이미지에서 confidence 값을 출력하지 않을지 여부
+
+save_conf = detection 결과 txt에서 confidence값을 출력하지 않을지 여부
+
+### [recognition 결과 저장 관련 arg]
+
+
+save_recog_result = recognition 결과 이미지를 저장할 지 여부
+
+
 ## === Code 내부에서 return 하는 것 ===
 
 output_path/output_video_path: 저장하는 결과 (이미지/동영상)의 경로
