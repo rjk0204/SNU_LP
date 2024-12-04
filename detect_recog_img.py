@@ -2,13 +2,13 @@ import os
 from PIL import Image, ImageDraw, ImageFont
 import cv2
 from helper.detect_api import DetectLP
-from config import parse_args
+import argparse
+import configparser
 
 # DetectLP 모듈 초기화
-def initialize_lp_module():
-    args = parse_args()
+def initialize_lp_module(cfg_dir, useGPU=True):
     LP_Module = DetectLP()
-    LP_Module.initialize('detect.cfg', useGPU=True)
+    LP_Module.initialize(cfg_dir, useGPU)
     LP_Module.set_gpu()
     LP_Module.load_networks()
     return LP_Module
@@ -57,11 +57,15 @@ def process_and_save_image(image_path, text_color, LP_Module):
 
 # 직접 실행 부분
 if __name__ == "__main__":
-    input_image_path = "./sample_images/test_image.jpg"  # 입력 이미지 경로
+    # Config 파일에서 경로를 읽어오기
+    config = configparser.ConfigParser()
+    config.read('detect.cfg')  # detect.cfg 파일을 읽음
+
+    # config 파일에서 'basic_config' 섹션에 있는 'source_img' 경로를 가져옴
+    input_image_path = config['basic_config']['source_img']
     text_color = "white"  # 텍스트 색상 (white 또는 black)
 
-    # LP 모듈 초기화
-    LP_Module = initialize_lp_module()
+    LP_Module = initialize_lp_module('detect.cfg', useGPU=True)
 
     # 이미지 처리 및 저장
     process_and_save_image(input_image_path, text_color, LP_Module)

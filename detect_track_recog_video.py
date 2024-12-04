@@ -4,19 +4,17 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 from tqdm import tqdm
 from helper.detect_api_2 import DetectLP
-from config import parse_args
-import time
+import configparser
 
 # DetectLP 초기화
-args = parse_args()
-LP_Module = DetectLP()
-LP_Module.initialize('detect.cfg', useGPU=True)
-LP_Module.set_gpu()
-LP_Module.load_networks()
+def initialize_lp_module(cfg_dir, useGPU=True):
+    LP_Module = DetectLP()
+    LP_Module.initialize(cfg_dir, useGPU)
+    LP_Module.set_gpu()
+    LP_Module.load_networks()
+    return LP_Module
 
-# 폰트 경로 설정
-font_path = 'gulim.ttc'  # 글꼴 경로
-
+# 비디오 처리 및 저장 함수
 def process_and_save_video(input_video_path, text_color, LP_Module):
     # 출력 디렉토리와 파일 경로 생성
     output_dir = "./video_result"
@@ -37,6 +35,7 @@ def process_and_save_video(input_video_path, text_color, LP_Module):
     print(f"Processing video: {input_video_path}")
     frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
+    font_path = 'gulim.ttc'  # 폰트 경로
     font = ImageFont.truetype(font_path, 20)
 
     for _ in tqdm(range(frame_count), desc="Processing Frames"):
@@ -48,13 +47,12 @@ def process_and_save_video(input_video_path, text_color, LP_Module):
         img_tensor = LP_Module.mat_to_torchtensor(img_mat)
 
         # Detection -> Tracking -> Recognition
-        bbox = LP_Module.detect(img_tensor, img_mat)  
-        tracked_dets = LP_Module.track(img_mat, bbox)  
-        recog_result = LP_Module.recognize(img_tensor, tracked_dets)  
+        bbox = LP_Module.detect(img_tensor, img_mat)
+        tracked_dets = LP_Module.track(img_mat, bbox)
+        recog_result = LP_Module.recognize(img_tensor, tracked_dets)
         final_results = LP_Module.combine_tracking_with_recognition(recog_result, tracked_dets)
 
-
-        # Visulize
+        # 시각화
         img_pil = Image.fromarray(img_mat)
         draw = ImageDraw.Draw(img_pil)
         for result in final_results:
@@ -75,8 +73,17 @@ def process_and_save_video(input_video_path, text_color, LP_Module):
     print(f"Saved processed video to: {output_video_path}")
     return output_video_path
 
+# 직접 실행 부분
 if __name__ == "__main__":
-    input_video_path = "./sample_video/test1.mp4" 
+    # Config 파일에서 경로를 읽어오기
+    config = configparser.ConfigParser()
+    config.read('detect.cfg')  # detect.cfg 파일을 읽음
+
+    # config 파일에서 'video_config' 섹션에 있는 'source_video' 경로를 가져옴
+    input_video_path = config['video_config']['source_video']
     text_color = "#FFFFFF"  # (흰색: #FFFFFF, 검은색: #000000)
 
+    LP_Module = initialize_lp_module('detect.cfg', useGPU=True)
+
+    # 비디오 처리 및 저장
     process_and_save_video(input_video_path, text_color, LP_Module)

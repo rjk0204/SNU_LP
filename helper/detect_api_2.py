@@ -75,7 +75,7 @@ class DetectLP:
             args.recognition_weight_file = basic_config["recognition_weight_file"]
 
             # Input Data File
-            args.source = basic_config["source"]
+            args.source_vid = basic_config["source_vid"]
 
             # GPU Number
             args.gpu_num = basic_config["gpu_num"]
