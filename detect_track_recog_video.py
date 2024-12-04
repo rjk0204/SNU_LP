@@ -80,7 +80,7 @@ if __name__ == "__main__":
     config.read('detect.cfg')  # detect.cfg 파일을 읽음
 
     # config 파일에서 'video_config' 섹션에 있는 'source_video' 경로를 가져옴
-    input_video_path = config['video_config']['source_video']
+    input_video_path = config['basic_config']['source_vid']
     text_color = "#FFFFFF"  # (흰색: #FFFFFF, 검은색: #000000)
 
     LP_Module = initialize_lp_module('detect.cfg', useGPU=True)

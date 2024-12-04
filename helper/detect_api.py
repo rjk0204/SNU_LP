@@ -75,7 +75,7 @@ class DetectLP:
             args.recognition_weight_file = basic_config["recognition_weight_file"]
 
             # Input Data File
-            args.source = basic_config["source"]
+            args.source_img = basic_config["source_img"]
 
             # GPU Number
             args.gpu_num = basic_config["gpu_num"]
@@ -156,11 +156,6 @@ class DetectLP:
                 args.hidden_size = 256
 
             args.input_channel = 3
-
-            # Add Directory & Result save parameters
-            args.output_dir = basic_config["output_dir"]
-            if not os.path.exists(args.output_dir):
-                os.makedirs(args.output_dir)
 
             args.result_savefile = basic_config.getboolean('result_savefile')
             if args.result_savefile == "" :
